@@ -52,7 +52,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     func getRequest(words: String, completion: @escaping(_ response:String) -> Void ){
         let session = URLSession(configuration: .default)
         
-        guard let url = URL(string: "https://localhost:5000") else {
+        guard let url = URL(string: "http://localhost:5000") else {
             print("not a valid url")
             return
         }
@@ -64,13 +64,18 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         request.httpBody = params.data(using: .utf8)
         
         let task = session.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                completion("error=\(String(describing: error))")
+            guard error == nil else {
+                completion("error not equal to nil")
+                return
+            }
+            
+            guard data!.count > 0 else {                                                 // check for fundamental networking error
+                completion("length of data is zero")
                 return
             }
             
             do {
-                guard let responseDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject] else {
+                guard let responseDictionary = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: AnyObject] else {
                     completion("can not get json from response")
                     return
                 }
@@ -97,14 +102,14 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             microphoneButton.isEnabled = false
             microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
             getRequest(words: self.textView.text, completion: { (response) in
-                self.botResponse.text = response
                 print(response)
-                let utterance = AVSpeechUtterance(string: response)
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
-                utterance.rate = 0.4
-                self.synthesizer.speak(utterance)
-                self.hasSpoken = true;
-                
+                DispatchQueue.main.async {
+                    self.botResponse.text = response
+                    let utterance = AVSpeechUtterance(string: response)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                    utterance.rate = 0.4
+                    self.synthesizer.speak(utterance)
+                }
             })
             
         } else {
