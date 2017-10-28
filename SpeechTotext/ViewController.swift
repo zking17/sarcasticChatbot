@@ -97,6 +97,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             microphoneButton.isEnabled = false
             microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
             getRequest(words: self.textView.text, completion: { (response) in
+                self.botResponse.text = response
                 print(response)
                 let utterance = AVSpeechUtterance(string: response)
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
