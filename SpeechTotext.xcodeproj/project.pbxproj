@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		57726AE51FA41075006DEDB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726AE41FA41075006DEDB8 /* AppDelegate.swift */; };
 		57726AE71FA41075006DEDB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726AE61FA41075006DEDB8 /* ViewController.swift */; };
-		57726AEA1FA41075006DEDB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57726AE81FA41075006DEDB8 /* Main.storyboard */; };
 		57726AEC1FA41075006DEDB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57726AEB1FA41075006DEDB8 /* Assets.xcassets */; };
 		57726AEF1FA41075006DEDB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57726AED1FA41075006DEDB8 /* LaunchScreen.storyboard */; };
 		57726AFA1FA41075006DEDB8 /* SpeechTotextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726AF91FA41075006DEDB8 /* SpeechTotextTests.swift */; };
 		57726B051FA41076006DEDB8 /* SpeechTotextUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57726B041FA41076006DEDB8 /* SpeechTotextUITests.swift */; };
+		E027AD361FA45FA000CF1B01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57726AE81FA41075006DEDB8 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,9 +232,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E027AD361FA45FA000CF1B01 /* Main.storyboard in Resources */,
 				57726AEF1FA41075006DEDB8 /* LaunchScreen.storyboard in Resources */,
 				57726AEC1FA41075006DEDB8 /* Assets.xcassets in Resources */,
-				57726AEA1FA41075006DEDB8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
