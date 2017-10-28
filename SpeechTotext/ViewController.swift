@@ -5,6 +5,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var microphoneButton: UIButton!
+    @IBOutlet weak var botResponse: UITextView!
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))!
     
@@ -51,7 +52,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     func getRequest(words: String, completion: @escaping(_ response:String) -> Void ){
         let session = URLSession(configuration: .default)
         
-        guard let url = URL(string: "") else {
+        guard let url = URL(string: "https://localhost8000") else {
             print("not a valid url")
             return
         }
@@ -97,11 +98,13 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
             getRequest(words: self.textView.text, completion: { (response) in
                 print(response)
+                let utterance = AVSpeechUtterance(string: response)
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                utterance.rate = 0.4
+                self.synthesizer.speak(utterance)
+                self.hasSpoken = true;
+                
             })
-//            let utterance = AVSpeechUtterance(string: self.textView.text)
-//            utterance.rate = 0.4
-//            self.synthesizer.speak(utterance)
-//            self.hasSpoken = true;
             
         } else {
             startRecording()
