@@ -11,8 +11,41 @@ import Speech
 
 class ViewController: UIViewController, SFSpeechRecognizerDelegate {
 
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.viewDidLoad()
+        
+        
+        microphoneButton.isEnabled = false  //2
+        
+        speechRecognizer?.delegate = self  //3
+        
+        SFSpeechRecognizer.requestAuthorization { (authStatus) in  //4
+            
+            var isButtonEnabled = false
+            
+            switch authStatus {  //5
+            case .authorized:
+                isButtonEnabled = true
+                
+            case .denied:
+                isButtonEnabled = false
+                print("User denied access to speech recognition")
+                
+            case .restricted:
+                isButtonEnabled = false
+                print("Speech recognition restricted on this device")
+                
+            case .notDetermined:
+                isButtonEnabled = false
+                print("Speech recognition not yet authorized")
+            }
+            OperationQueue.main.addOperation() {
+                self.microphoneButton.isEnabled = isButtonEnabled
+            }
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 
