@@ -51,7 +51,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     func getRequest(words: String, completion: @escaping(_ response:String) -> Void ){
         let session = URLSession(configuration: .default)
         
-        guard let url = URL(string: "https://localhost:8080") else {
+        guard let url = URL(string: "https://localhost:5000") else {
             print("not a valid url")
             return
         }
