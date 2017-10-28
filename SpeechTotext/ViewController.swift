@@ -11,6 +11,8 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
+    let synthesizer = AVSpeechSynthesizer()
+    var hasSpoken = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,9 +54,12 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             recognitionRequest?.endAudio()
             microphoneButton.isEnabled = false
             microphoneButton.setTitle("Start Recording", for: .normal)
+            microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
+
         } else {
             startRecording()
-            microphoneButton.setTitle("Stop Recording", for: .normal)
+//            microphoneButton.setImage(UIImage(named: "icons8-record-filled"), for: .normal)
+            microphoneButton.backgroundColor = .red
         }
     }
     
@@ -89,18 +94,16 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             var isFinal = false  //8
             
             if result != nil {
-                
                 self.textView.text = result?.bestTranscription.formattedString  //9
                 isFinal = (result?.isFinal)!
+                
             }
             
             if error != nil || isFinal {  //10
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
-                
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
-                
                 self.microphoneButton.isEnabled = true
             }
         })
@@ -130,3 +133,9 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 }
+/*
+ let utterance = AVSpeechUtterance(string: self.textView.text)
+ utterance.rate = 0.4
+ self.synthesizer.speak(utterance)
+ self.hasSpoken = true;
+ */
