@@ -40,7 +40,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.17162946428571429" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="W3T-2G-hCd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="88" id="EOu-bl-I8T"/>
                             <constraint firstItem="W3T-2G-hCd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Np6-mn-SBv"/>
