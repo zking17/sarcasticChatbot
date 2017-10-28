@@ -52,7 +52,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     func getRequest(words: String, completion: @escaping(_ response:String) -> Void ){
         let session = URLSession(configuration: .default)
         
-        guard let url = URL(string: "http://localhost:5000") else {
+        guard let url = URL(string: "http://127.0.0.1:5000/") else {
             print("not a valid url")
             return
         }
@@ -102,11 +102,11 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             microphoneButton.isEnabled = false
             microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
             getRequest(words: self.textView.text, completion: { (response) in
-                print(response)
                 DispatchQueue.main.async {
+                    print(response)
                     self.botResponse.text = response
                     let utterance = AVSpeechUtterance(string: response)
-                    utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+//                    utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
                     utterance.rate = 0.4
                     self.synthesizer.speak(utterance)
                 }
