@@ -5,6 +5,7 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var microphoneButton: UIButton!
+    @IBOutlet weak var botResponse: UITextView!
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))!
     
@@ -96,12 +97,15 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             microphoneButton.isEnabled = false
             microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
             getRequest(words: self.textView.text, completion: { (response) in
+                self.botResponse.text = response
                 print(response)
+                let utterance = AVSpeechUtterance(string: response)
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-gb")
+                utterance.rate = 0.4
+                self.synthesizer.speak(utterance)
+                self.hasSpoken = true;
+                
             })
-//            let utterance = AVSpeechUtterance(string: self.textView.text)
-//            utterance.rate = 0.4
-//            self.synthesizer.speak(utterance)
-//            self.hasSpoken = true;
             
         } else {
             startRecording()
