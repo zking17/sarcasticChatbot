@@ -48,17 +48,64 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
     
+    func getRequest(words: String, completion: @escaping(_ response:String) -> Void ){
+        let session = URLSession(configuration: .default)
+        
+        guard let url = URL(string: "") else {
+            print("not a valid url")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let params = "message=\(words)"
+        request.httpBody = params.data(using: .utf8)
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                completion("error=\(String(describing: error))")
+                return
+            }
+            
+            do {
+                guard let responseDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject] else {
+                    completion("can not get json from response")
+                    return
+                }
+                
+                guard let description = responseDictionary["bot_response"] as? String else {
+                    return
+                }
+                
+                completion(description)
+                
+            } catch {
+                completion("Exception thrown parsing json")
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
     @IBAction func microphoneTapped(_ sender: AnyObject) {
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
             microphoneButton.isEnabled = false
-//            microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
-
+            microphoneButton.setImage(UIImage(named: "icons8-record"), for: .normal)
+            getRequest(words: self.textView.text, completion: { (response) in
+                print(response)
+            })
+//            let utterance = AVSpeechUtterance(string: self.textView.text)
+//            utterance.rate = 0.4
+//            self.synthesizer.speak(utterance)
+//            self.hasSpoken = true;
+            
         } else {
             startRecording()
-//            microphoneButton.setImage(UIImage(named: "icons8-record-filled"), for: .normal)
-            textView.text = "Press the button to begin recording."
+            microphoneButton.setImage(UIImage(named: "icons8-record-filled"), for: .normal)
         }
     }
     
@@ -95,7 +142,6 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
             if result != nil {
                 self.textView.text = result?.bestTranscription.formattedString  //9
                 isFinal = (result?.isFinal)!
-                
             }
             
             if error != nil || isFinal {  //10
@@ -132,9 +178,5 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 }
-/*
- let utterance = AVSpeechUtterance(string: self.textView.text)
- utterance.rate = 0.4
- self.synthesizer.speak(utterance)
- self.hasSpoken = true;
- */
+
+
