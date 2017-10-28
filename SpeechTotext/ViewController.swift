@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Speech
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SFSpeechRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var microphoneButton: UIButton!
+    
+    @IBAction func microphoneTapped(_ sender: Any) {
+    }
+    
 }
+
 
